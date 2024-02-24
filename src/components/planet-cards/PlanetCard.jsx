@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import Card from "./Card";
-import Pagination from "./Pagination";
-import PlanetContext from "../data/PlanetData";
+import React, { Fragment, useContext, useEffect, useState } from "react";
+import Card from "../header/card/Card";
+import Pagination from "../Pagination";
+import PlanetContext from "../../data/PlanetData";
 import { ThreeDots } from "react-loader-spinner";
+import styles from './planet-cards.module.css'
 
 function PlanetCard() {
   const {
@@ -13,6 +14,7 @@ function PlanetCard() {
     loading,
     setCurrentPage,
   } = useContext(PlanetContext);
+
   const planetImages = [
     "https://upload.wikimedia.org/wikipedia/en/6/6d/Tatooine_%28fictional_desert_planet%29.jpg",
     "https://img2.cgtrader.com/items/3564600/92038246cb/large/star-wars-planet-pack-2-alderaan-a-new-hope-3d-model-low-poly-rigged-blend.jpg",
@@ -41,34 +43,41 @@ function PlanetCard() {
     }
   };
 
-  return (
-    <div className="flex page-container gap-5 flex-wrap  md:flex-row md:col-3">
-      {loading ? (
-        <div className="min-h-screen flex items-center justify-center ml-[700px]">
-          <ThreeDots  color="  #002661" />
-        </div>
-        
-      ) : (
-        <>
-          {planets.map((planet, index) => (
-            <Card
-              key={index}
-              title={planet.name}
-              description={`Climate: ${planet.climate}\nPopulation: ${planet.population}\nTerrain: ${planet.terrain}`}
-              imageUrl={planetImages[index % planetImages.length]}
-              planetData={planet}
-            />
-          ))}
+  if(loading) {
+    return (
+      <div className={styles.loaders}>
+        <ThreeDots  color="  #002661" />
+      </div>
+      
+    )
+  }
 
-          <Pagination
-            currentPage={currentPage}
-            hasNextPage={currentPage < totalPages}
-            handleNextPage={handleNextPage}
-            handlePrevPage={handlePrevPage}
-          />
-        </>
-      )}
-    </div>
+  return (
+    <Fragment>
+      <div className={`${styles.wrapper}`}>
+          {/* <Fragment> */}
+            {
+                planets.map((planet, index) => (
+                  <Card
+                    key={index}
+                    title={planet.name}
+                    description={`Climate: ${planet.climate}\nPopulation: ${planet.population}\nTerrain: ${planet.terrain}`}
+                    imageUrl={planetImages[index % planetImages.length]}
+                    planetData={planet}
+                  />
+            ))}
+
+          
+          {/* </Fragment> */}
+        
+      </div>
+      <Pagination
+        currentPage={currentPage}
+        hasNextPage={currentPage < totalPages}
+        handleNextPage={handleNextPage}
+        handlePrevPage={handlePrevPage}
+      />
+   </Fragment>
   );
 }
 

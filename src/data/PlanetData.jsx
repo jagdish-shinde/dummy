@@ -1,8 +1,13 @@
-import { createContext, useState, useEffect } from "react";
+import { 
+    createContext, 
+    useState, 
+    useEffect 
+} from "react";
 
 const PlanetContext = createContext();
 
 export const PlanetContextProvider = ({ children }) => {
+
   const [planets, setPlanets] = useState([]);
   const [residents, setResidents] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
@@ -14,10 +19,8 @@ export const PlanetContextProvider = ({ children }) => {
     fetch(`https://swapi.dev/api/planets/?format=json&page=${currentPage}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setPlanets(data.results);
         setTotalPages(Math.ceil(data.count / data.results.length));
-
         const residentPromises = data.results.map((planet) =>
           Promise.all(
             planet.residents.map((residentURL) =>
@@ -25,11 +28,9 @@ export const PlanetContextProvider = ({ children }) => {
             )
           )
         );
-
         Promise.all(residentPromises)
           .then((residentsData) => setResidents(residentsData))
           .catch((error) => console.error('Error fetching residents data:', error));
-
         setLoading(false);
       })
       .catch((error) => {

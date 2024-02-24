@@ -22,8 +22,8 @@ function ResidentCard({ profileUrl }) {
   }, [profileUrl]);
 
   return (
-    <div className="w-3/4 m-auto ">
-      <div className="mt-20 mb-20">
+    // <div className="w-3/4 m-auto">
+      <div className='resident-wrapper'>
         {!profileUrl ? (
           "<h1>No resident ON this planet</h1>"
         ) : (
@@ -48,7 +48,7 @@ function ResidentCard({ profileUrl }) {
           </div>
         )}
       </div>
-    </div>
+    // </div>
   );
 }
 

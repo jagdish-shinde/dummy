@@ -4,8 +4,8 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
+import PlanetCard from './components/planet-cards/PlanetCard.jsx';
 import ResidentData from './components/ResidentData.jsx';
-import PlanetCard from './components/PlanetCard.jsx';
 const router = createBrowserRouter([
   {
     path:"/",element:<App/>,
